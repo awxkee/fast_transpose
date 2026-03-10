@@ -101,6 +101,7 @@ pub use rotate180::{
     rotate180_rgb16, rotate180_rgb_f32, rotate180_rgba, rotate180_rgba16, rotate180_rgba_f32,
 };
 pub use transpose_arbitrary::transpose_arbitrary;
+pub use transpose_arbitrary_group::transpose_arbitrary_grouped;
 pub use unsigned_16::{
     transpose_plane16, transpose_plane16_with_alpha, transpose_rgb16, transpose_rgba16,
 };

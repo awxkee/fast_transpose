@@ -278,7 +278,7 @@ fn trs_arb_grouped<V: Copy, const N: usize, const FLOP: bool, const FLIP: bool>(
 /// returns: Result<(), TransposeError>
 ///
 #[allow(clippy::too_many_arguments)]
-pub(crate) fn transpose_arbitrary_grouped<V: Copy, const N: usize>(
+pub fn transpose_arbitrary_grouped<V: Copy, const N: usize>(
     input: &[V],
     input_stride: usize,
     output: &mut [V],
