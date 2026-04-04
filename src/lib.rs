@@ -28,7 +28,7 @@
  */
 #![allow(clippy::too_many_arguments)]
 #![cfg_attr(not(feature = "unsafe"), forbid(unsafe_code))]
-#![allow(stable_features)]
+#![allow(stable_features, unused_features)]
 #![cfg_attr(
     all(
         feature = "nightly_avx512",
