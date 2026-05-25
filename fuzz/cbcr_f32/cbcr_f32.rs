@@ -29,7 +29,9 @@
 
 #![no_main]
 
-use fast_transpose::{transpose_plane_f32_with_alpha, transpose_plane_with_alpha, FlipMode, FlopMode};
+use fast_transpose::{
+    transpose_plane_f32_with_alpha, transpose_plane_with_alpha, FlipMode, FlopMode,
+};
 use libfuzzer_sys::fuzz_target;
 
 fuzz_target!(|data: (u16, u16)| {
