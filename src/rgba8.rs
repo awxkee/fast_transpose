@@ -148,13 +148,10 @@ pub(crate) fn transpose_executor<
                 let src = src.get_unchecked(x * CN..);
 
                 for j in 0..BLOCK_SIZE {
-                    std::ptr::copy_nonoverlapping(
-                        src.get_unchecked(j * input_stride..).as_ptr(),
-                        src_buffer
-                            .get_unchecked_mut(j * (BLOCK_SIZE * CN)..)
-                            .as_mut_ptr(),
-                        rem_x * CN,
-                    );
+                    let src_row = &src.get_unchecked(j * input_stride..)[..rem_x * CN];
+                    let dst_row =
+                        &mut src_buffer.get_unchecked_mut(j * (BLOCK_SIZE * CN)..)[..rem_x * CN];
+                    dst_row.copy_from_slice(src_row);
                 }
 
                 exec.transpose_block(
@@ -167,23 +164,15 @@ pub(crate) fn transpose_executor<
                 let dst = output.get_unchecked_mut(y * CN + output_stride * output_x..);
 
                 for j in 0..rem_x {
-                    if FLOP {
-                        std::ptr::copy_nonoverlapping(
-                            dst_buffer
-                                .get_unchecked_mut(j * (BLOCK_SIZE * CN)..)
-                                .as_mut_ptr(),
-                            dst.get_unchecked_mut(j * output_stride..).as_mut_ptr(),
-                            BLOCK_SIZE * CN,
-                        );
+                    let src_idx = if FLOP {
+                        j * (BLOCK_SIZE * CN)
                     } else {
-                        std::ptr::copy_nonoverlapping(
-                            dst_buffer
-                                .get_unchecked_mut((BLOCK_SIZE - j - 1) * (BLOCK_SIZE * CN)..)
-                                .as_mut_ptr(),
-                            dst.get_unchecked_mut(j * output_stride..).as_mut_ptr(),
-                            BLOCK_SIZE * CN,
-                        );
-                    }
+                        (BLOCK_SIZE - j - 1) * (BLOCK_SIZE * CN)
+                    };
+                    let src_row = &dst_buffer.get_unchecked(src_idx..)[..BLOCK_SIZE * CN];
+                    let dst_row =
+                        &mut dst.get_unchecked_mut(j * output_stride..)[..BLOCK_SIZE * CN];
+                    dst_row.copy_from_slice(src_row);
                 }
             }
 

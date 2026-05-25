@@ -2,7 +2,7 @@ workspace = { members = ["app", "fuzz"] }
 
 [package]
 name = "fast_transpose"
-version = "0.2.5"
+version = "0.2.6"
 edition = "2021"
 description = "Fast image and matrix transpose"
 readme = "README.md"
