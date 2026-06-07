@@ -95,13 +95,10 @@ pub(crate) fn neon_transpose_f32x2_4x4<const FLOP: bool, const FLIP: bool>(
                 q2.1,
             );
 
-            vst1q_f32(dst.get_unchecked_mut(1 * dst_stride..).as_mut_ptr(), q1.0);
+            vst1q_f32(dst.get_unchecked_mut(dst_stride..).as_mut_ptr(), q1.0);
             vst1q_f32(dst.get_unchecked_mut(0..).as_mut_ptr(), q1.1);
 
-            vst1q_f32(
-                dst.get_unchecked_mut(4 + 1 * dst_stride..).as_mut_ptr(),
-                q3.0,
-            );
+            vst1q_f32(dst.get_unchecked_mut(4 + dst_stride..).as_mut_ptr(), q3.0);
             vst1q_f32(dst.get_unchecked_mut(4..).as_mut_ptr(), q3.1);
         }
     }
