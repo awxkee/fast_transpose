@@ -83,23 +83,26 @@ pub(crate) fn neon_transpose_f32x2_4x4<const FLOP: bool, const FLIP: bool>(
                 q3.1,
             );
         } else {
+            vst1q_f32(dst.get_unchecked_mut(3 * dst_stride..).as_mut_ptr(), q0.0);
+            vst1q_f32(dst.get_unchecked_mut(2 * dst_stride..).as_mut_ptr(), q0.1);
+
             vst1q_f32(
                 dst.get_unchecked_mut(4 + 3 * dst_stride..).as_mut_ptr(),
-                q0.0,
+                q2.0,
             );
             vst1q_f32(
                 dst.get_unchecked_mut(4 + 2 * dst_stride..).as_mut_ptr(),
-                q0.1,
+                q2.1,
             );
 
-            vst1q_f32(dst.get_unchecked_mut(3 * dst_stride..).as_mut_ptr(), q2.0);
-            vst1q_f32(dst.get_unchecked_mut(2 * dst_stride..).as_mut_ptr(), q2.1);
+            vst1q_f32(dst.get_unchecked_mut(1 * dst_stride..).as_mut_ptr(), q1.0);
+            vst1q_f32(dst.get_unchecked_mut(0..).as_mut_ptr(), q1.1);
 
-            vst1q_f32(dst.get_unchecked_mut(4 + dst_stride..).as_mut_ptr(), q1.0);
-            vst1q_f32(dst.get_unchecked_mut(4..).as_mut_ptr(), q1.0);
-
-            vst1q_f32(dst.get_unchecked_mut(dst_stride..).as_mut_ptr(), q3.0);
-            vst1q_f32(dst.get_unchecked_mut(0..).as_mut_ptr(), q3.1);
+            vst1q_f32(
+                dst.get_unchecked_mut(4 + 1 * dst_stride..).as_mut_ptr(),
+                q3.0,
+            );
+            vst1q_f32(dst.get_unchecked_mut(4..).as_mut_ptr(), q3.1);
         }
     }
 }

@@ -96,21 +96,21 @@ fn main() {
     // )
     // .unwrap();
 
-    for i in 0..10 {
-        let start = Instant::now();
-        transpose_plane_f32_with_alpha(
-            &rgba_bytes,
-            dimensions.0 as usize * 2,
-            &mut transposed,
-            dimensions.1 as usize * 2,
-            dimensions.0 as usize,
-            dimensions.1 as usize,
-            FlipMode::NoFlip,
-            FlopMode::Flop,
-        )
-        .unwrap();
-        println!("Exec time {:?}", start.elapsed());
-    }
+    // for i in 0..10 {
+    let start = Instant::now();
+    transpose_plane_f32_with_alpha(
+        &rgba_bytes,
+        dimensions.0 as usize * 2,
+        &mut transposed,
+        dimensions.1 as usize * 2,
+        dimensions.0 as usize,
+        dimensions.1 as usize,
+        FlipMode::NoFlip,
+        FlopMode::NoFlop,
+    )
+    .unwrap();
+    println!("Exec time {:?}", start.elapsed());
+    // }
 
     // transpose_rgba(
     //     &rgba_bytes,

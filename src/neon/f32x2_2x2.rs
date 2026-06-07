@@ -61,17 +61,17 @@ pub(crate) fn neon_transpose_f32x2_2x2<const FLOP: bool, const FLIP: bool>(
     dst_stride: usize,
 ) {
     unsafe {
-        let row0 = vld1q_f32(src.get_unchecked(0..).as_ptr());
+        let row0 = vld1q_f32(src.get_unchecked(..).as_ptr());
         let row1 = vld1q_f32(src.get_unchecked(src_stride..).as_ptr());
 
         let v0 = neon_transpose_f32x2_2x2_impl::<FLIP>(float32x4x2_t(row0, row1));
 
         if FLOP {
-            vst1q_f32(dst.get_unchecked_mut(0..).as_mut_ptr(), v0.0);
+            vst1q_f32(dst.get_unchecked_mut(..).as_mut_ptr(), v0.0);
             vst1q_f32(dst.get_unchecked_mut(dst_stride..).as_mut_ptr(), v0.1);
         } else {
             vst1q_f32(dst.get_unchecked_mut(dst_stride..).as_mut_ptr(), v0.0);
-            vst1q_f32(dst.get_unchecked_mut(0..).as_mut_ptr(), v0.1);
+            vst1q_f32(dst.get_unchecked_mut(..).as_mut_ptr(), v0.1);
         }
     }
 }
