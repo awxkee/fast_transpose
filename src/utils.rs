@@ -51,15 +51,77 @@ impl Display for TransposeError {
 
 impl Error for TransposeError {}
 
+/// Declares whether the image should be reflected across the vertical axis after
+/// `transpose_*` function performs a 90 degree counter-clockwise rotation.
+///
+/// For example, passing the following image to a `transpose_*` function:
+///
+/// ```text
+/// 0 1
+/// 2 3
+/// ```
+///
+/// will produce
+///
+/// - 90 degree counter-clockwise rotation with [`FlipMode::NoFlip`] and [`FlopMode::NoFlop`]:
+///   ```text
+///   1 3
+///   0 2
+///   ```
+/// - reflection across major diagonal axis with [`FlipMode::NoFlip`] and [`FlopMode::Flop`]:
+///   ```text
+///   0 2
+///   1 3
+///   ```
+/// - reflection across minor diagonal axis with [`FlipMode::Flip`] and [`FlopMode::NoFlop`]:
+///   ```text
+///   3 1
+///   2 0
+///   ```
+/// - 270 degree counter-clockwise rotation with [`FlipMode::Flip`] and [`FlopMode::Flop`]:
+///   ```text
+///   2 0
+///   3 1
+///   ```
 #[derive(Copy, Clone, Ord, PartialOrd, Eq, PartialEq, Debug)]
-/// Declares mirror mode along Y axis
 pub enum FlipMode {
     NoFlip,
     Flip,
 }
 
+/// Declares whether the image should be reflected across the horizontal axis after
+/// `transpose_*` function performs a 90 degree counter-clockwise rotation.
+///
+/// For example, passing the following image to a `transpose_*` function:
+///
+/// ```text
+/// 0 1
+/// 2 3
+/// ```
+///
+/// will produce
+///
+/// - 90 degree counter-clockwise rotation with [`FlipMode::NoFlip`] and [`FlopMode::NoFlop`]:
+///   ```text
+///   1 3
+///   0 2
+///   ```
+/// - reflection across major diagonal axis with [`FlipMode::NoFlip`] and [`FlopMode::Flop`]:
+///   ```text
+///   0 2
+///   1 3
+///   ```
+/// - reflection across minor diagonal axis with [`FlipMode::Flip`] and [`FlopMode::NoFlop`]:
+///   ```text
+///   3 1
+///   2 0
+///   ```
+/// - 270 degree counter-clockwise rotation with [`FlipMode::Flip`] and [`FlopMode::Flop`]:
+///   ```text
+///   2 0
+///   3 1
+///   ```
 #[derive(Copy, Clone, Ord, PartialOrd, Eq, PartialEq, Debug)]
-/// Declares mirror mode along X axis
 pub enum FlopMode {
     NoFlop,
     Flop,
