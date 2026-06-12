@@ -1,13 +1,13 @@
 # Fast image transpose
 
-Fast and simple image rotating in Rust with flipping and flopping in-place and rotating by 180.
+Fast and simple image rotating in Rust with flipping and flopping in-place and rotating by 180 degrees.
 
 ## Supports:
-- Flipping ( Horizontal Mirror )
-- Flopping ( Vertical Mirror )
-- Transposing ( Rotate by 90 )
-- Rotate by 180
-- Rotate by 270
+- Reflection across vertical axis (`flip_*` functions)
+- Reflection across horizontal axis (`flop_*` functions)
+- Rotation by 90 degrees counter-clockwise (`transpose_*` functions with `FlipMode::NoFlip` and `FlopMode::NoFlop`)
+- Rotation by 180 degrees (`rotate180_*` functions)
+- Rotation by 270 degrees counter-clockwise (`transpose_*` functions with `FlipMode::Flip` and `FlopMode::Flop`)
 
 ### Adding to project
 
@@ -15,7 +15,7 @@ Fast and simple image rotating in Rust with flipping and flopping in-place and r
 cargo add fast_transpose
 ```
 
-### Transpose RGB image
+### Rotate RGB image 90 degrees counter-clockwise
 
 ```rust
 transpose_rgb(
