@@ -86,21 +86,21 @@ pub(crate) fn neon_transpose_u16x4_4x4<const FLOP: bool, const FLIP: bool>(
         } else {
             xvst1q_u16_u64(
                 dst.get_unchecked_mut(8 + 3 * dst_stride..).as_mut_ptr(),
-                q0.0,
+                q2.0,
             );
             xvst1q_u16_u64(
                 dst.get_unchecked_mut(8 + 2 * dst_stride..).as_mut_ptr(),
-                q0.1,
+                q2.1,
             );
 
-            xvst1q_u16_u64(dst.get_unchecked_mut(3 * dst_stride..).as_mut_ptr(), q2.0);
-            xvst1q_u16_u64(dst.get_unchecked_mut(2 * dst_stride..).as_mut_ptr(), q2.1);
+            xvst1q_u16_u64(dst.get_unchecked_mut(3 * dst_stride..).as_mut_ptr(), q0.0);
+            xvst1q_u16_u64(dst.get_unchecked_mut(2 * dst_stride..).as_mut_ptr(), q0.1);
 
-            xvst1q_u16_u64(dst.get_unchecked_mut(8 + dst_stride..).as_mut_ptr(), q1.0);
-            xvst1q_u16_u64(dst.get_unchecked_mut(8..).as_mut_ptr(), q1.0);
+            xvst1q_u16_u64(dst.get_unchecked_mut(8 + dst_stride..).as_mut_ptr(), q3.0);
+            xvst1q_u16_u64(dst.get_unchecked_mut(8..).as_mut_ptr(), q3.1);
 
-            xvst1q_u16_u64(dst.get_unchecked_mut(dst_stride..).as_mut_ptr(), q3.0);
-            xvst1q_u16_u64(dst.get_unchecked_mut(0..).as_mut_ptr(), q3.1);
+            xvst1q_u16_u64(dst.get_unchecked_mut(dst_stride..).as_mut_ptr(), q1.0);
+            xvst1q_u16_u64(dst.get_unchecked_mut(0..).as_mut_ptr(), q1.1);
         }
     }
 }
