@@ -167,7 +167,7 @@ pub(crate) fn transpose_executor<
                     let src_idx = if FLOP {
                         j * (BLOCK_SIZE * CN)
                     } else {
-                        (BLOCK_SIZE - j - 1) * (BLOCK_SIZE * CN)
+                        (BLOCK_SIZE - rem_x + j) * (BLOCK_SIZE * CN)
                     };
                     let src_row = &dst_buffer.get_unchecked(src_idx..)[..BLOCK_SIZE * CN];
                     let dst_row =
