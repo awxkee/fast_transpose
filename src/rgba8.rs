@@ -63,9 +63,8 @@ pub(crate) fn transpose_section<V: Copy, const CN: usize, const FLOP: bool, cons
             }
             #[cfg(not(feature = "unsafe"))]
             {
-                for i in 0..CN {
-                    output[output_index + i] = input[input_index + i];
-                }
+                output[output_index..output_index + CN]
+                    .copy_from_slice(&input[input_index..input_index + CN]);
             }
         }
     }
@@ -95,6 +94,7 @@ impl<const FLOP: bool, const FLIP: bool> TransposeBlock<u8> for TransposeBlockNe
     }
 }
 
+#[cfg(feature = "unsafe")]
 #[allow(dead_code)]
 #[inline(always)]
 pub(crate) fn transpose_executor<
@@ -461,16 +461,16 @@ pub(crate) fn transpose_rgba8_chunked(
     flip_mode: FlipMode,
     flop_mode: FlopMode,
 ) -> Result<(), TransposeError> {
-    if input.len() != input_stride * height {
+    if input_stride.checked_mul(height) != Some(input.len()) {
         return Err(TransposeError::MismatchDimensions);
     }
-    if output.len() != output_stride * width {
+    if output_stride.checked_mul(width) != Some(output.len()) {
         return Err(TransposeError::MismatchDimensions);
     }
-    if input_stride < width * 4 {
+    if width.checked_mul(4).is_none_or(|v| input_stride < v) {
         return Err(TransposeError::MismatchDimensions);
     }
-    if output_stride < height * 4 {
+    if height.checked_mul(4).is_none_or(|v| output_stride < v) {
         return Err(TransposeError::MismatchDimensions);
     }
 

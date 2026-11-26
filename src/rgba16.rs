@@ -233,16 +233,16 @@ pub(crate) fn transpose_rgba16_chunked(
     flip_mode: FlipMode,
     flop_mode: FlopMode,
 ) -> Result<(), TransposeError> {
-    if input.len() != input_stride * height {
+    if input_stride.checked_mul(height) != Some(input.len()) {
         return Err(TransposeError::MismatchDimensions);
     }
-    if output.len() != output_stride * width {
+    if output_stride.checked_mul(width) != Some(output.len()) {
         return Err(TransposeError::MismatchDimensions);
     }
-    if input_stride < width * 4 {
+    if width.checked_mul(4).is_none_or(|v| input_stride < v) {
         return Err(TransposeError::MismatchDimensions);
     }
-    if output_stride < height * 4 {
+    if height.checked_mul(4).is_none_or(|v| output_stride < v) {
         return Err(TransposeError::MismatchDimensions);
     }
 

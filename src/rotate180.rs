@@ -428,10 +428,10 @@ pub fn rotate180_arbitrary<V: Copy + Default + 'static>(
     if input.len() != output.len() {
         return Err(TransposeError::MismatchDimensions);
     }
-    if input.len() != input_stride * height {
+    if input_stride.checked_mul(height) != Some(input.len()) {
         return Err(TransposeError::MismatchDimensions);
     }
-    if output.len() != output_stride * height {
+    if output_stride.checked_mul(height) != Some(output.len()) {
         return Err(TransposeError::MismatchDimensions);
     }
     if input_stride < width {
@@ -472,16 +472,16 @@ fn rotate180_arbitrary_image<V: Copy + Default + 'static + Pod, const N: usize>(
 where
     [V; N]: Pod,
 {
-    if input.len() != input_stride * height {
+    if input_stride.checked_mul(height) != Some(input.len()) {
         return Err(TransposeError::MismatchDimensions);
     }
-    if output.len() != output_stride * height {
+    if output_stride.checked_mul(height) != Some(output.len()) {
         return Err(TransposeError::MismatchDimensions);
     }
-    if input_stride < width * N {
+    if width.checked_mul(N).is_none_or(|v| input_stride < v) {
         return Err(TransposeError::MismatchDimensions);
     }
-    if output_stride < width * N {
+    if width.checked_mul(N).is_none_or(|v| output_stride < v) {
         return Err(TransposeError::MismatchDimensions);
     }
 

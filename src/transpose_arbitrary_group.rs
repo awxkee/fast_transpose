@@ -288,16 +288,16 @@ pub fn transpose_arbitrary_grouped<V: Copy, const N: usize>(
     flip_mode: FlipMode,
     flop_mode: FlopMode,
 ) -> Result<(), TransposeError> {
-    if input.len() != input_stride * height {
+    if input_stride.checked_mul(height) != Some(input.len()) {
         return Err(TransposeError::MismatchDimensions);
     }
-    if output.len() != output_stride * width {
+    if output_stride.checked_mul(width) != Some(output.len()) {
         return Err(TransposeError::MismatchDimensions);
     }
-    if input_stride < width * N {
+    if width.checked_mul(N).is_none_or(|v| input_stride < v) {
         return Err(TransposeError::MismatchDimensions);
     }
-    if output_stride < height * N {
+    if height.checked_mul(N).is_none_or(|v| output_stride < v) {
         return Err(TransposeError::MismatchDimensions);
     }
 
