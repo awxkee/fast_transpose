@@ -137,10 +137,10 @@ impl<const FLOP: bool, const FLIP: bool> TransposeExecutor<f32>
         width: usize,
         height: usize,
     ) -> Result<(), TransposeError> {
-        if input.len() != input_stride * height {
+        if input_stride.checked_mul(height) != Some(input.len()) {
             return Err(TransposeError::MismatchDimensions);
         }
-        if output.len() != output_stride * width {
+        if output_stride.checked_mul(width) != Some(output.len()) {
             return Err(TransposeError::MismatchDimensions);
         }
         if input_stride < width {
@@ -292,10 +292,10 @@ impl<const FLOP: bool, const FLIP: bool> Ssse3DefaultExecutor<FLOP, FLIP> {
         width: usize,
         height: usize,
     ) -> Result<(), TransposeError> {
-        if input.len() != input_stride * height {
+        if input_stride.checked_mul(height) != Some(input.len()) {
             return Err(TransposeError::MismatchDimensions);
         }
-        if output.len() != output_stride * width {
+        if output_stride.checked_mul(width) != Some(output.len()) {
             return Err(TransposeError::MismatchDimensions);
         }
         if input_stride < width {
@@ -400,10 +400,10 @@ impl<const FLOP: bool, const FLIP: bool> Avx2DefaultExecutor<FLOP, FLIP> {
         width: usize,
         height: usize,
     ) -> Result<(), TransposeError> {
-        if input.len() != input_stride * height {
+        if input_stride.checked_mul(height) != Some(input.len()) {
             return Err(TransposeError::MismatchDimensions);
         }
-        if output.len() != output_stride * width {
+        if output_stride.checked_mul(width) != Some(output.len()) {
             return Err(TransposeError::MismatchDimensions);
         }
         if input_stride < width {
